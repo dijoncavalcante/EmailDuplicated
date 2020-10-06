@@ -2,10 +2,17 @@ package com.dijon.emailduplicated;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
+
+import java.util.Random;
 
 /***
  * /*
@@ -25,21 +32,25 @@ import android.widget.Button;
  *  */
 //APP 2
 public class MainActivity extends AppCompatActivity {
+    static final String TAG = "MainActivity";
     Button btnStart, btnStop;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        Log.d(TAG, "onCreate()");
         btnStart = findViewById(R.id.btnStart);
         btnStop = findViewById(R.id.btnStop);
+        //register my broadcastReceiver
+        registerReceiver(emailBroadcastReceiver, new IntentFilter("ACTION_UPDATE_EMAIL_LIST"));
 
         btnStart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent();
-                intent.setAction("SERVICE_EMAIL");
+                Log.d(TAG, "btnStart onClick()");
+
+                Intent intent = new Intent("SERVICE_EMAIL");
                 intent.setPackage("com.dijon.serviceremoveduplicateditens");
                 startService(intent);
             }
@@ -48,6 +59,7 @@ public class MainActivity extends AppCompatActivity {
         btnStop.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Log.d(TAG, "btnStop onClick()");
                 Intent intent = new Intent("SERVICE_EMAIL");
                 intent.setPackage("com.dijon.serviceremoveduplicateditens");
                 stopService(intent);
@@ -55,4 +67,27 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    private BroadcastReceiver emailBroadcastReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            Log.d(TAG, "emailBroadcastReceiver onReceive()");
+            int count = new Random().nextInt();
+            String message = intent.getAction();
+             message = message + intent.getStringExtra("ACTION");
+            Toast.makeText(MainActivity.this, message +" - "+ count, Toast.LENGTH_SHORT).show();
+        }
+    };
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        Log.d(TAG, "onPause()");
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        unregisterReceiver(emailBroadcastReceiver);
+        Log.d(TAG, "onDestroy() - unregisterReceiver");
+    }
 }
