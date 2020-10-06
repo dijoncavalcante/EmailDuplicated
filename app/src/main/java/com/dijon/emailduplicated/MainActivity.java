@@ -2,17 +2,25 @@ package com.dijon.emailduplicated;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.Manifest;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Vibrator;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
 import java.util.Random;
+
+import static android.os.Process.myPid;
+import static android.os.Process.myUid;
+import static java.lang.Process.*;
 
 /***
  * /*
@@ -44,15 +52,31 @@ public class MainActivity extends AppCompatActivity {
         btnStop = findViewById(R.id.btnStop);
         //register my broadcastReceiver
         registerReceiver(emailBroadcastReceiver, new IntentFilter("ACTION_UPDATE_EMAIL_LIST"));
-
+        Log.d(TAG, "register my broadcastReceiver ACTION_UPDATE_EMAIL_LIST");
         btnStart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Log.d(TAG, "btnStart onClick()");
 
-                Intent intent = new Intent("SERVICE_EMAIL");
-                intent.setPackage("com.dijon.serviceremoveduplicateditens");
-                startService(intent);
+                Intent intent = new Intent("SERVICE_EMAIL_TEST");
+                intent.setPackage("com.dijon.serviceemailupdate");
+//                startService(intent);
+//                boolean teste = view.getContext().checkPermission(Manifest.permission.KILL_BACKGROUND_PROCESSES, myPid(), myUid())
+//                        == PackageManager.PERMISSION_GRANTED;
+//
+                try {
+                    getApplicationContext().startService(intent);
+                    Log.d(TAG, "btnStart onClick() startService(intent)");
+                } catch (Exception e) {
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                        getApplicationContext().startForegroundService(intent);
+//                        startService(intent);
+                        Log.d(TAG, "btnStart onClick() startForegroundService(intent)");
+                    } else {
+                        startService(intent);
+                    }
+                }
+
             }
         });
 
@@ -60,8 +84,8 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Log.d(TAG, "btnStop onClick()");
-                Intent intent = new Intent("SERVICE_EMAIL");
-                intent.setPackage("com.dijon.serviceremoveduplicateditens");
+                Intent intent = new Intent("SERVICE_EMAIL_TEST");
+                intent.setPackage("com.dijon.serviceemailupdate");
                 stopService(intent);
             }
         });
@@ -73,8 +97,17 @@ public class MainActivity extends AppCompatActivity {
             Log.d(TAG, "emailBroadcastReceiver onReceive()");
             int count = new Random().nextInt();
             String message = intent.getAction();
-             message = message + intent.getStringExtra("ACTION");
-            Toast.makeText(MainActivity.this, message +" - "+ count, Toast.LENGTH_SHORT).show();
+            message = message + intent.getStringExtra("ACTION");
+            Toast.makeText(MainActivity.this, message + " - " + count, Toast.LENGTH_SHORT).show();
+
+            Vibrator vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
+            long milliseconds = 2000;
+            vibrator.vibrate(milliseconds);
+
+            Intent in = new Intent("SERVICE_EMAIL_TEST");
+            in.setPackage("com.dijon.serviceemailupdate");
+            stopService(in);
+
         }
     };
 
