@@ -41,6 +41,8 @@ import static java.lang.Process.*;
 //APP 2
 public class MainActivity extends AppCompatActivity {
     static final String TAG = "MainActivity";
+    static final String ACTION_SERVICE_EMAIL = "SERVICE_EMAIL";
+    static final String PACKAGE_SERVICE_EMAIL = "com.dijon.serviceremoveduplicateditens";
     Button btnStart, btnStop;
 
     @Override
@@ -58,22 +60,20 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Log.d(TAG, "btnStart onClick()");
 
-                Intent intent = new Intent("SERVICE_EMAIL_TEST");
-                intent.setPackage("com.dijon.serviceemailupdate");
-//                startService(intent);
-//                boolean teste = view.getContext().checkPermission(Manifest.permission.KILL_BACKGROUND_PROCESSES, myPid(), myUid())
-//                        == PackageManager.PERMISSION_GRANTED;
-//
+//                Intent intent = new Intent("SERVICE_EMAIL_TEST");
+//                intent.setPackage("com.dijon.serviceemailupdate");
+                Intent intent = new Intent(ACTION_SERVICE_EMAIL);
+                intent.setPackage(PACKAGE_SERVICE_EMAIL);
+
                 try {
                     getApplicationContext().startService(intent);
-                    Log.d(TAG, "btnStart onClick() startService(intent)");
                 } catch (Exception e) {
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                         getApplicationContext().startForegroundService(intent);
-//                        startService(intent);
                         Log.d(TAG, "btnStart onClick() startForegroundService(intent)");
                     } else {
                         startService(intent);
+                        Log.d(TAG, "btnStart onClick() startService(intent);");
                     }
                 }
 
@@ -84,8 +84,8 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Log.d(TAG, "btnStop onClick()");
-                Intent intent = new Intent("SERVICE_EMAIL_TEST");
-                intent.setPackage("com.dijon.serviceemailupdate");
+                Intent intent = new Intent(ACTION_SERVICE_EMAIL);
+                intent.setPackage(PACKAGE_SERVICE_EMAIL);
                 stopService(intent);
             }
         });
@@ -104,8 +104,8 @@ public class MainActivity extends AppCompatActivity {
             long milliseconds = 2000;
             vibrator.vibrate(milliseconds);
 
-            Intent in = new Intent("SERVICE_EMAIL_TEST");
-            in.setPackage("com.dijon.serviceemailupdate");
+            Intent in = new Intent(ACTION_SERVICE_EMAIL);
+            in.setPackage(PACKAGE_SERVICE_EMAIL);
             stopService(in);
 
         }
