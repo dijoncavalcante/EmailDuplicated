@@ -1,13 +1,9 @@
 package com.dijon.emailduplicated;
 
-import androidx.appcompat.app.AppCompatActivity;
-
-import android.Manifest;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Vibrator;
@@ -16,11 +12,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
-import java.util.Random;
+import androidx.appcompat.app.AppCompatActivity;
 
-import static android.os.Process.myPid;
-import static android.os.Process.myUid;
-import static java.lang.Process.*;
+import java.util.Random;
 
 /***
  * /*
