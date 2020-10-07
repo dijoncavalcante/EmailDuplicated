@@ -33,8 +33,6 @@ import androidx.appcompat.app.AppCompatActivity;
 //APP 2
 public class MainActivity extends AppCompatActivity {
     static final String TAG = "MainActivity";
-    static final String ACTION_SERVICE_EMAIL = "SERVICE_EMAIL";
-    static final String PACKAGE_SERVICE_EMAIL = "com.dijon.serviceremoveduplicateditens";
     static final String ACTION_UPDATE_EMAIL_LIST = "ACTION_UPDATE_EMAIL_LIST";
     Button btnStart, btnStop;
 
