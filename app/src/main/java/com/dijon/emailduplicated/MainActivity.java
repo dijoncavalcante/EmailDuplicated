@@ -14,8 +14,6 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import java.util.Random;
-
 /***
  * /*
  * Escreva dois aplicativos Android,
@@ -37,6 +35,7 @@ public class MainActivity extends AppCompatActivity {
     static final String TAG = "MainActivity";
     static final String ACTION_SERVICE_EMAIL = "SERVICE_EMAIL";
     static final String PACKAGE_SERVICE_EMAIL = "com.dijon.serviceremoveduplicateditens";
+    static final String ACTION_UPDATE_EMAIL_LIST = "ACTION_UPDATE_EMAIL_LIST";
     Button btnStart, btnStop;
 
     @Override
@@ -47,20 +46,20 @@ public class MainActivity extends AppCompatActivity {
         btnStart = findViewById(R.id.btnStart);
         btnStop = findViewById(R.id.btnStop);
         //register my broadcastReceiver
-        registerReceiver(emailBroadcastReceiver, new IntentFilter("ACTION_UPDATE_EMAIL_LIST"));
+        registerReceiver(emailBroadcastReceiver, new IntentFilter(ACTION_UPDATE_EMAIL_LIST));
         Log.d(TAG, "register my broadcastReceiver ACTION_UPDATE_EMAIL_LIST");
+
         btnStart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Log.d(TAG, "btnStart onClick()");
 
-//                Intent intent = new Intent("SERVICE_EMAIL_TEST");
-//                intent.setPackage("com.dijon.serviceemailupdate");
-                Intent intent = new Intent(ACTION_SERVICE_EMAIL);
-                intent.setPackage(PACKAGE_SERVICE_EMAIL);
+                Intent intent = new Intent("SERVICE_EMAIL_TEST");
+                intent.setPackage("com.dijon.serviceemailupdate");
 
                 try {
                     getApplicationContext().startService(intent);
+                    Log.d(TAG, "btnStart onClick() getApplicationContext().startService(intent)");
                 } catch (Exception e) {
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                         getApplicationContext().startForegroundService(intent);
@@ -78,9 +77,6 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Log.d(TAG, "btnStop onClick()");
-                Intent intent = new Intent(ACTION_SERVICE_EMAIL);
-                intent.setPackage(PACKAGE_SERVICE_EMAIL);
-                stopService(intent);
             }
         });
     }
@@ -89,17 +85,17 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public void onReceive(Context context, Intent intent) {
             Log.d(TAG, "emailBroadcastReceiver onReceive()");
-            int count = new Random().nextInt();
+
             String message = intent.getAction();
             message = message + intent.getStringExtra("ACTION");
-            Toast.makeText(MainActivity.this, message + " - " + count, Toast.LENGTH_SHORT).show();
+            Toast.makeText(MainActivity.this, message, Toast.LENGTH_SHORT).show();
 
             Vibrator vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
             long milliseconds = 2000;
             vibrator.vibrate(milliseconds);
 
-            Intent in = new Intent(ACTION_SERVICE_EMAIL);
-            in.setPackage(PACKAGE_SERVICE_EMAIL);
+            Intent in = new Intent("SERVICE_EMAIL_TEST");
+            in.setPackage("com.dijon.serviceemailupdate");
             stopService(in);
 
         }
