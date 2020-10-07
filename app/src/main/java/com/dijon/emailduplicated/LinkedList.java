@@ -3,21 +3,63 @@ package com.dijon.emailduplicated;
 import java.io.Serializable;
 import java.util.Collection;
 
-public class LinkedList  implements Serializable {
+public class LinkedList implements Serializable {
     Node head;
+    private Node first;
+    private Node last;
+    private int quantity;
 
-    public LinkedList() {
-
+    public Node getFirst() {
+        return first;
     }
 
-    public LinkedList(Collection collection) {
+    public void setFirst(Node first) {
+        this.first = first;
+    }
 
+    public Node getLast() {
+        return last;
+    }
+
+    public void setLast(Node last) {
+        this.last = last;
+    }
+
+    public int getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
+    }
+
+    public LinkedList() {
+        this.first = null;
+        this.last = null;
+        this.quantity = 0;
+    }
+
+    public void insertFirst(Person p) {
+        Node newNode = new Node(p);
+
+        if (this.listNull()) {
+            this.last = newNode;
+        }
+
+        newNode.setNext_(this.first);
+        this.first = newNode;
+        this.quantity++;
+    }
+
+    public boolean listNull() {
+        return (this.first == null);
     }
 
     public void insert(int date) {
         Node node = new Node();
         node.date = date;
         node.next = null;
+
         if (head == null) {
             head = node;
         } else {
