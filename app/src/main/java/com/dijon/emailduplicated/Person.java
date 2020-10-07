@@ -1,6 +1,6 @@
 package com.dijon.emailduplicated;
 
-public class Pessoa {
+public class Person {
     private String email;
 
     public String getEmail() {
@@ -10,5 +10,4 @@ public class Pessoa {
     public void setEmail(String email) {
         this.email = email;
     }
-
 }
