@@ -23,10 +23,18 @@
         android:text="Solve email Duplicated" />
 
     <Button
-        android:id="@+id/btnStop"
+        android:id="@+id/btnLoadEmailList"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="20dp"
-        android:text="stop" />
+        android:text="Load Email List" />
+
+    <TextView
+        android:id="@+id/tv_showList"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_margin="20dp"
+        android:text="Hello Welcome to Broadcast Example" />
 
 </androidx.appcompat.widget.LinearLayoutCompat>

@@ -1,8 +1,6 @@
 package com.dijon.emailduplicated;
 
 import java.io.Serializable;
-import java.util.Collection;
-import java.util.EmptyStackException;
 
 public class LinkedList implements Serializable {
     Node head;
@@ -93,12 +91,11 @@ public class LinkedList implements Serializable {
     }
 
     public String searchNode(String email) {
-        String message = "";
         Node current = this.first;
         while ((current != null) && (!current.getPerson().getEmail().equals(email))) {
             current = current.getnext();
         }
-        return message = "Email: " + current.getPerson().getEmail();
+        return "Email: " + current.getPerson().getEmail();
     }
 
     public String showList() {
