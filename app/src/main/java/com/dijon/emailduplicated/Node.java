@@ -1,8 +1,6 @@
 package com.dijon.emailduplicated;
 
 public class Node {
-//    Object date;
-//    Node next;
     private Person person;
     private Node next;
 
@@ -14,11 +12,11 @@ public class Node {
         this.person = person;
     }
 
-    public Node getnext() {
+    public Node getNext() {
         return next;
     }
 
-    public void setnext(Node next) {
+    public void setNext(Node next) {
         this.next = next;
     }
 

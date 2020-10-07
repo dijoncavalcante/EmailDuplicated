@@ -45,7 +45,7 @@ public class LinkedList implements Serializable {
             this.last = newNode;
         }
 
-        newNode.setnext(this.first);
+        newNode.setNext(this.first);
         this.first = newNode;
         this.quantity++;
     }
@@ -56,7 +56,7 @@ public class LinkedList implements Serializable {
         if (listNull()) {
             this.first = newNode;
         } else {
-            this.last.setnext(newNode);
+            this.last.setNext(newNode);
         }
         this.last = newNode;
         this.quantity++;
@@ -71,19 +71,19 @@ public class LinkedList implements Serializable {
         } else {
             while ((current != null) && (!current.getPerson().getEmail().equals(email))) {
                 previous = current;
-                current = current.getnext();
+                current = current.getNext();
             }
 
             if (current == this.first) {
                 if (this.first == this.last) {
                     this.last = null;
                 }
-                this.first = this.first.getnext();
+                this.first = this.first.getNext();
             } else {
                 if (current == this.last) {
                     this.last = previous;
                 }
-                previous.setnext(current.getnext());
+                previous.setNext(current.getNext());
             }
             this.quantity--;
             return true;
@@ -93,7 +93,7 @@ public class LinkedList implements Serializable {
     public String searchNode(String email) {
         Node current = this.first;
         while ((current != null) && (!current.getPerson().getEmail().equals(email))) {
-            current = current.getnext();
+            current = current.getNext();
         }
         return "Email: " + current.getPerson().getEmail();
     }
@@ -108,7 +108,7 @@ public class LinkedList implements Serializable {
 
             while (current != null) {
                 message += current.getPerson().getEmail() + " -> ";
-                current = current.getnext();
+                current = current.getNext();
             }
         }
 
