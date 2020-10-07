@@ -95,10 +95,27 @@ public class LinkedList implements Serializable {
     public String searchNode(String email) {
         String message = "";
         Node current = this.first;
-        while ((current !=null) && (!current.getPerson().getEmail().equals(email))){
+        while ((current != null) && (!current.getPerson().getEmail().equals(email))) {
             current = current.getnext();
         }
-        return message = "Email: "+current.getPerson().getEmail();
+        return message = "Email: " + current.getPerson().getEmail();
+    }
+
+    public String showList() {
+        String message = "";
+
+        if (listNull()) {
+            message = "List is null";
+        } else {
+            Node current = this.first;
+
+            while (current != null) {
+                message += current.getPerson().getEmail() + " -> ";
+                current = current.getnext();
+            }
+        }
+
+        return message;
     }
 
 
