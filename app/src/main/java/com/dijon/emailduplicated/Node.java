@@ -1,10 +1,10 @@
 package com.dijon.emailduplicated;
 
 public class Node {
-    Object date;
-    Node next;
+//    Object date;
+//    Node next;
     private Person person;
-    private Node next_;
+    private Node next;
 
     public Person getPerson() {
         return person;
@@ -14,16 +14,16 @@ public class Node {
         this.person = person;
     }
 
-    public Node getNext_() {
-        return next_;
+    public Node getnext() {
+        return next;
     }
 
-    public void setNext_(Node next_) {
-        this.next_ = next_;
+    public void setnext(Node next) {
+        this.next = next;
     }
 
     public Node(Person person) {
         this.person = person;
-        this.next_ = null;
+        this.next = null;
     }
 }
