@@ -7,34 +7,72 @@
     android:orientation="vertical"
     tools:context=".MainActivity">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_vertical"
-        android:layout_margin="20dp"
-        android:text="Hello Welcome to Broadcast Example" />
-
-
-    <Button
-        android:id="@+id/btnStart"
+    <androidx.cardview.widget.CardView
+        android:id="@+id/card_container_solved"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="20dp"
-        android:text="Solve email Duplicated" />
+        app:cardCornerRadius="20dp">
 
-    <Button
-        android:id="@+id/btnLoadEmailList"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="20dp"
-        android:text="Load Email List" />
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-    <TextView
-        android:id="@+id/tv_showList"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_vertical"
-        android:layout_margin="20dp"
-        android:text="Hello Welcome to Broadcast Example" />
+            <TextView
+                android:id="@+id/tv_hi"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_margin="20dp"
+                android:gravity="center_horizontal"
+                android:text="Hello Welcome to Broadcast Example" />
 
+
+            <Button
+                android:id="@+id/btnStart"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/tv_hi"
+                android:layout_margin="20dp"
+                android:gravity="center_horizontal"
+                android:text="Solve email Duplicated" />
+        </RelativeLayout>
+    </androidx.cardview.widget.CardView>
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <!--        app:layout_behavior="@string/appbar_scrolling_view_behavior">-->
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/card_container_duplicated"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="20dp"
+            app:cardCornerRadius="20dp">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <Button
+                    android:id="@+id/btnLoadEmailList"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="20dp"
+                    android:text="Load Email List" />
+
+                <TextView
+                    android:id="@+id/tv_showList"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/btnLoadEmailList"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_margin="20dp"
+                    android:gravity="center"
+                    android:text="Hello Welcome to Broadcast Example" />
+
+            </RelativeLayout>
+        </androidx.cardview.widget.CardView>
+    </androidx.core.widget.NestedScrollView>
 </androidx.appcompat.widget.LinearLayoutCompat>

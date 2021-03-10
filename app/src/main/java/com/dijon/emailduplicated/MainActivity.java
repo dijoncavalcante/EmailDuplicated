@@ -4,7 +4,6 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Vibrator;
 import android.util.Log;
@@ -55,22 +54,27 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Log.d(TAG, "btnStart onClick()");
 
-                Intent intent = new Intent("SERVICE_EMAIL_TEST");
-                intent.setPackage("com.dijon.serviceemailupdate");
-                intent.putExtra("email_list", emailDuplicatedList);
+                Intent intent = new Intent("SERVICE_EMAIL_DUPLICATED");
+                intent.setPackage("com.dijon.emailduplicated");
 
-                try {
-                    getApplicationContext().startService(intent);
-                    Log.d(TAG, "btnStart onClick() getApplicationContext().startService(intent)");
-                } catch (Exception e) {
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                        getApplicationContext().startForegroundService(intent);
-                        Log.d(TAG, "btnStart onClick() startForegroundService(intent)");
-                    } else {
-                        startService(intent);
-                        Log.d(TAG, "btnStart onClick() startService(intent);");
-                    }
-                }
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("email_list_bundle", emailDuplicatedList);
+                intent.putExtras(bundle);
+                //startService(intent);
+                processEmailDuplicated(emailDuplicatedList);
+//                try {
+//                    getApplicationContext().startService(intent);
+//                    Log.d(TAG, "btnStart onClick() getApplicationContext().startService(intent)");
+//                } catch (Exception e) {
+//                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+//                        getApplicationContext().startForegroundService(intent);
+//                        Log.d(TAG, "btnStart onClick() startForegroundService(intent)");
+//                    } else {
+//                        startService(intent);
+//                        Log.d(TAG, "btnStart onClick() startService(intent);");
+//                    }
+//                }
+                Log.d(TAG, "btnStart onClick() startService(intent)");
 
             }
         });
@@ -95,19 +99,15 @@ public class MainActivity extends AppCompatActivity {
         emailDuplicatedList.insertFirst(person);
 
         person = new Person();
-        person.setEmail("dijon@gmail.com");
+        person.setEmail("dijon@hotmail.com.com");
         emailDuplicatedList.inserirLast(person);
 
         person = new Person();
-        person.setEmail("cesar@gmail.com");
+        person.setEmail("braga@gmail.com");
         emailDuplicatedList.inserirLast(person);
 
         person = new Person();
-        person.setEmail("cesar@gmail.com");
-        emailDuplicatedList.inserirLast(person);
-
-        person = new Person();
-        person.setEmail("teste@gmail.com");
+        person.setEmail("cavalcante@gmail.com");
         emailDuplicatedList.inserirLast(person);
 
         person = new Person();
@@ -115,7 +115,11 @@ public class MainActivity extends AppCompatActivity {
         emailDuplicatedList.inserirLast(person);
 
         person = new Person();
-        person.setEmail("vivian@gmail.com");
+        person.setEmail("teste@gmail.com");
+        emailDuplicatedList.inserirLast(person);
+
+        person = new Person();
+        person.setEmail("joao@gmail.com");
         emailDuplicatedList.inserirLast(person);
 
         tv_showList.setText(emailDuplicatedList.showList());
@@ -125,7 +129,7 @@ public class MainActivity extends AppCompatActivity {
     private BroadcastReceiver emailBroadcastReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            Log.d(TAG, "emailBroadcastReceiver onReceive()");
+            Log.d(TAG, "onReceive()");
 
             String message = intent.getAction();
             message = message + intent.getStringExtra("ACTION");
@@ -137,7 +141,8 @@ public class MainActivity extends AppCompatActivity {
 
             Log.d(TAG, "Updating tv_showList");
 
-            emailDuplicatedListResponse = (LinkedList) intent.getSerializableExtra("email_answer");
+            Bundle bundle = intent.getExtras();
+            emailDuplicatedListResponse = (LinkedList) bundle.getSerializable("email_answer");
 
             tv_showList.setText(emailDuplicatedListResponse.showList());
 
@@ -147,6 +152,31 @@ public class MainActivity extends AppCompatActivity {
 
         }
     };
+
+    public LinkedList processEmailDuplicated(LinkedList list) {
+        Log.d(TAG, "processEmailDuplicated");
+        LinkedList lista = list;
+
+        if ((lista != null) && (lista.getQuantity() > 0)) {
+            Log.d(TAG, "list.getQuantity(): " + lista.getQuantity());
+            Node currentNode = lista.getFirst();
+            Node nextNode = currentNode.getNext();
+            int count = 0;
+
+            //Node n
+
+            while ((currentNode != null) && (currentNode.getPerson().getEmail().equals(nextNode.getPerson().getEmail()))) {
+                Log.d(TAG, "currentNode == nextNode");
+                count++;
+                list.removeNo(nextNode.getPerson().getEmail());
+            }
+
+        } else {
+            Log.d(TAG, "list is null");
+        }
+
+        return list;
+    }
 
     @Override
     protected void onPause() {

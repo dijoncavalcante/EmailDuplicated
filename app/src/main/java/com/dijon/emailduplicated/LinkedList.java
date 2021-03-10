@@ -119,4 +119,5 @@ public class LinkedList implements Serializable {
     public boolean listNull() {
         return (this.first == null);
     }
+
 }

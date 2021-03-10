@@ -1,6 +1,8 @@
 package com.dijon.emailduplicated;
 
-public class Node {
+import java.io.Serializable;
+
+public class Node implements Serializable {
     private Person person;
     private Node next;
 
@@ -24,4 +26,5 @@ public class Node {
         this.person = person;
         this.next = null;
     }
+
 }
