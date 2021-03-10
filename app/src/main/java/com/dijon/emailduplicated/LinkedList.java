@@ -107,7 +107,7 @@ public class LinkedList implements Serializable {
             Node current = this.first;
 
             while (current != null) {
-                message += current.getPerson().getEmail() + " -> ";
+                message += current.getPerson().getEmail() + "\n";
                 current = current.getNext();
             }
         }
